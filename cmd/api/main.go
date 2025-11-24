@@ -6,5 +6,7 @@ import (
 
 func main() {
 	router := handlers.RoutesHandler()
-	router.Run(":8080")
+	if err := router.Run(); err != nil {
+		panic("Error starting server: " + err.Error())
+	}
 }
