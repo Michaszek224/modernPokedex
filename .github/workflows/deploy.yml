@@ -69,7 +69,6 @@ jobs:
           go-version: '1.25.x'
       - name: Build
         run: go build -v -o modernPokedex ./cmd/api
-      - name: Create .env file
       - env:
           POSTGRES_HOST: localhost
           POSTGRES_USER: user
