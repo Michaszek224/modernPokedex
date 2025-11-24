@@ -6,7 +6,7 @@ COPY . .
 
 RUN go mod download
 
-RUN go build -o modernPokedex ./cmd
+RUN go build -o modernPokedex ./cmd/api/
 
 FROM alpine:3.22.2
 
