@@ -21,10 +21,12 @@ func TestPostgresTableExists(t *testing.T) {
 		t.Fatal("Error loading .env file")
 	}
 
-	os.Setenv("DB_HOST", "localhost")
+	if err := os.Setenv("DB_HOST", "localhost"); err != nil {
+		t.Fatalf("Error setting DB_HOST environment variable: %v", err)
+	}
 	var db *sql.DB
 
-	for _ = range 5 {
+	for range 5 {
 		db, err = database.PostgresInit()
 		if err == nil {
 			break
@@ -37,7 +39,11 @@ func TestPostgresTableExists(t *testing.T) {
 		t.Fatal("Error connecting to database")
 	}
 
-	defer db.Close()
+	defer func() {
+		if err := db.Close(); err != nil {
+			t.Fatalf("Error closing database: %v", err)
+		}
+	}()
 
 	query := `
 		SELECT EXISTS (

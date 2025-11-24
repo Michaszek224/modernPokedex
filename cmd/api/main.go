@@ -11,7 +11,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error initializing database: %v", err)
 	}
-	defer db.Close()
+	defer func() {
+		if err := db.Close(); err != nil {
+			log.Fatalf("Error closing database: %v", err)
+		}
+	}()
 
 	router := handlers.RoutesHandler()
 	if err := router.Run(); err != nil {

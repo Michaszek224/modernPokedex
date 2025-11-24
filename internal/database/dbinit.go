@@ -53,6 +53,4 @@ func createTable(db *sql.DB) error {
 	return nil
 }
 
-func redisInit() {
-	// TODO: implement
-}
+
