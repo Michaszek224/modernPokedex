@@ -69,11 +69,11 @@ jobs:
           go-version: '1.25.x'
       - name: Build
         run: go build -v -o modernPokedex ./cmd/api
-      - env:
+      - name: Test
+        env:
           POSTGRES_HOST: localhost
           POSTGRES_USER: user
           POSTGRES_PASSWORD: password
           POSTGRES_DB: mydb
           POSTGRES_PORT: 5432
-      - name: Test
-        run: go test -v ./tesst/...
+        run: go test -v ./tests/...
