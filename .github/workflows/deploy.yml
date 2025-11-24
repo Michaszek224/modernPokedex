@@ -53,5 +53,13 @@ jobs:
           go-version: '1.25.x'
       - name: Build
         run: go build -v ./...
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "DB_HOST=localhost" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_USER=user" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_NAME=mydb" >> .env
       - name: Test
         run: go test -v ./...
