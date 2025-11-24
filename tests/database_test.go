@@ -18,7 +18,7 @@ import (
 func TestPostgresTableExists(t *testing.T) {
 	err := godotenv.Load("../.env")
 	if err != nil {
-		t.Fatal("Error loading .env file")
+		t.Log("No .env file found")
 	}
 
 	if err := os.Setenv("DB_HOST", "localhost"); err != nil {
