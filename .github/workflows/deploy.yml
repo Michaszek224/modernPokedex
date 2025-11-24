@@ -73,9 +73,9 @@ jobs:
         run: go build -v -o modernPokedex ./cmd/api
       - name: Test
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: mydb
-          POSTGRES_PORT: 5432
+          DB_HOST: localhost
+          DB_USER: user
+          DB_PASSWORD: password
+          DB_NAME: mydb
+          DB_PORT: 5432
         run: go test -v ./tests/...
