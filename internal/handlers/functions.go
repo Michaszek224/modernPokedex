@@ -1,21 +1,53 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"modernPokedex/internal/database"
+	"strconv"
 
-func getAllPokemons(ctx *gin.Context) {
-	ctx.JSON(200, gin.H{
-		"message": "get request all",
-	})
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+
+	_ "github.com/lib/pq"
+)
+
+type Handler struct {
+	db *database.Postgres
 }
 
-func getPokemonByID(ctx *gin.Context) {
-	ctx.JSON(200, gin.H{
-		"message": "get request",
-	})
+func (h *Handler) getAllPokemons(ctx *gin.Context) {
+	pokemons, err := h.db.GetAllPokemon()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "error getting pokemons",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, pokemons)
 }
 
-func createPokemon(ctx *gin.Context) {
-	ctx.JSON(200, gin.H{
-		"message": "post request",
-	})
+func (h *Handler) getPokemon(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		pokemon, err := h.db.GetPokemonByName(idStr)
+		if err != nil {
+			ctx.JSON(http.StatusNotFound, gin.H{
+				"error": "pokemon not found",
+			})
+			return
+		}
+		ctx.JSON(http.StatusOK, pokemon)
+		return
+	}
+
+	pokemon, err := h.db.GetPokemonByID(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"error": "pokemon not found",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, pokemon)
 }

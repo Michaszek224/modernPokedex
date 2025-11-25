@@ -1,11 +1,18 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"modernPokedex/internal/database"
 
-func RoutesHandler() *gin.Engine {
+	"github.com/gin-gonic/gin"
+)
+
+func RoutesHandler(db *database.Postgres) *gin.Engine {
 	r := gin.Default()
-	r.GET("/", getAllPokemons)
-	r.GET("/:id", getPokemonByID)
-	r.POST("/:id", createPokemon)
+
+	h := &Handler{db: db}
+
+	r.GET("/", h.getAllPokemons)
+	r.GET("/:id", h.getPokemon)
+
 	return r
 }

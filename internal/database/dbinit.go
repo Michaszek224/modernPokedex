@@ -40,9 +40,10 @@ func PostgresInit() (*sql.DB, error) {
 func createTable(db *sql.DB) error {
 	query := `
 	CREATE TABLE IF NOT EXISTS pokemons (
-		id INT PRIMARY KEY,
+		id SERIAL PRIMARY KEY,
 		name TEXT NOT NULL,
-		types TEXT[] NOT NULL
+		type1 TEXT NOT NULL,
+		type2 TEXT
 	);`
 
 	_, err := db.Exec(query)
@@ -52,5 +53,3 @@ func createTable(db *sql.DB) error {
 
 	return nil
 }
-
-

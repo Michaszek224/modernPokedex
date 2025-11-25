@@ -17,7 +17,13 @@ func main() {
 		}
 	}()
 
-	router := handlers.RoutesHandler()
+	postgres := database.NewPostgres(db)
+	err = database.SeedData(db)
+	if err != nil {
+		log.Fatalf("Error populate db: %v", err)
+	}
+
+	router := handlers.RoutesHandler(postgres)
 	if err := router.Run(); err != nil {
 		panic("Error starting server: " + err.Error())
 	}
