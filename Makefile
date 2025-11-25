@@ -10,7 +10,7 @@ lint:
 	@echo "Running GolangCI-Lint..."
 	golangci-lint run
 
-test: up-infra
+test: up-infra lint
 	@echo "Running Tests..."
 	DB_HOST=localhost go test -v ./...
 
