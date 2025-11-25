@@ -2,6 +2,16 @@
 
 ## Demo app of implementing DevOps solutions like docker image and Github Actions
 
+### Technologies
+
+- Golang
+- Docker
+- Docker Compose
+- PostgreSQL
+- Redis
+- Git
+- Github Actions
+
 ### How to run
 
 ```bash
