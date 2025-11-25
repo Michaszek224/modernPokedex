@@ -31,6 +31,10 @@ func setupPostgres(t *testing.T) *sql.DB {
 		t.Fatalf("failed to connect to postgres: %v", err)
 	}
 
+	if err := database.SeedData(db); err != nil {
+		t.Fatalf("failed to seed database: %v", err)
+	}
+
 	return db
 }
 
