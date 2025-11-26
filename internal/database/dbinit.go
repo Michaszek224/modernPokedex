@@ -1,11 +1,14 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"os"
+	"time"
 
 	_ "github.com/lib/pq"
+	"github.com/redis/go-redis/v9"
 )
 
 func PostgresInit() (*sql.DB, error) {
@@ -52,4 +55,26 @@ func createTable(db *sql.DB) error {
 	}
 
 	return nil
+}
+
+func RedisInit() (*redis.Client, error) {
+	redisAddr := os.Getenv("REDIS_ADDR")
+	if redisAddr == "" {
+		redisAddr = "localhost:6379"
+	}
+	client := redis.NewClient(&redis.Options{
+		Addr:     redisAddr,
+		Password: "",
+		DB:       0,
+	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := client.Ping(ctx).Err(); err != nil {
+		return nil, fmt.Errorf("error pinging redis: %v", err)
+	}
+	fmt.Println("Redis is up")
+	return client, nil
+
 }
