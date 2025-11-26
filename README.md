@@ -71,7 +71,7 @@ http :8080/:name -v
 http :8080/Bulbasaur -v
 ```
 
-```json
+```http
 HTTP/1.1 200 OK
 Content-Length: 60
 Content-Type: application/json; charset=utf-8
@@ -92,7 +92,8 @@ X-Cache: MISS
 http :8080/4 -v
 ```
 
-```jsonHTTP/1.1 200 OK
+```http
+HTTP/1.1 200 OK
 Content-Length: 54
 Content-Type: application/json; charset=utf-8
 Date: Wed, 26 Nov 2025 21:51:52 GMT
