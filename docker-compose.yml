@@ -17,13 +17,24 @@ services:
       timeout: 5s
       retries: 5
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
   cache:
     image: redis:alpine 
     container_name: redis_container
     ports:
       - '6379:6379'
     restart: always
-    .env_file:
+    env_file:
       - .env
     environment:
       REDIS_ADDR: ${REDIS_ADDR}
@@ -32,6 +43,17 @@ services:
       interval: 1s
       timeout: 5s
       retries: 5
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redisinsight_container
+    ports:
+      - "5540:5540"
+    restart: always
+    volumes:
+      - redisinsight_data:/data
+    depends_on:
+      - cache
 
   app:
     build: .
@@ -49,3 +71,6 @@ services:
         condition: service_healthy
       cache:
         condition: service_healthy
+
+volumes:
+  redisinsight_data:

@@ -106,3 +106,17 @@ X-Cache: HIT
     "Type2": ""
 }
 ```
+
+### Tools to interact with Databases
+
+#### Redis Insight
+
+```bash
+localhost:5540
+```
+
+#### PgAdmin4
+
+```bash
+localhost:5050
+```
